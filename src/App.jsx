@@ -10,8 +10,8 @@ const App = function() {
     return (
         <NavigationContainer>
             <StatusBar animated={true} backgroundColor="#61dafb" barStyle="dark-content" showHideTransition="fade" hidden={false}/>
-            <Stack.Navigator>
-                <Stack.Screen name="Home" component={Home} options={{ title: "Welcome" }}/>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="Home" component={Home}/>
             </Stack.Navigator>
         </NavigationContainer>
     );
