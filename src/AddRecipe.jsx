@@ -2,11 +2,11 @@ import React from "react";
 import { SafeAreaView, StyleSheet, Text } from "react-native";
 import Navbar from "./components/Navbar";
 
-const Home = function({ navigation }) {
-    return(
+const AddRecipe = function({ navigation }) {
+    return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.text}>Home is here.</Text>
-            <Navbar navigation={navigation} active="home"/>
+            <Text style={styles.text}>Add recipe here.</Text>
+            <Navbar navigation={navigation} active="add-recipe"/>
         </SafeAreaView>
     );
 };
@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
     },
 
     text: {
-        color: "#A91515"
+        color: "black"
     }
 });
 
-export default Home;
+export default AddRecipe;
