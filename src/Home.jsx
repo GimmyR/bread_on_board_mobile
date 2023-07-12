@@ -2,11 +2,13 @@ import React from "react";
 import { SafeAreaView, StyleSheet, Text } from "react-native";
 import Navbar from "./components/Navbar";
 import HomeHeader from "./components/HomeHeader";
+import RecipesList from "./components/RecipesList";
 
 const Home = function({ navigation }) {
     return(
         <SafeAreaView style={styles.container}>
             <HomeHeader/>
+            <RecipesList/>
             <Navbar navigation={navigation} active="home"/>
         </SafeAreaView>
     );
