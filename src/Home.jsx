@@ -8,7 +8,7 @@ const Home = function({ navigation }) {
     return(
         <SafeAreaView style={styles.container}>
             <HomeHeader/>
-            <RecipesList/>
+            <RecipesList navigation={navigation}/>
             <Navbar navigation={navigation} active="home"/>
         </SafeAreaView>
     );

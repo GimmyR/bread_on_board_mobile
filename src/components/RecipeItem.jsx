@@ -2,11 +2,11 @@ import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Link from "./Link";
 
-const RecipeItem = function({ recipe }) {
+const RecipeItem = function({ recipe, navigation }) {
     const source = { uri: "http://192.168.88.16:8000/images/recipes/" + recipe.recipeImage };
 
     const onPressRecipe = function() {
-        console.log(`GO TO RECIPE #${recipe.recipeId}`);
+        navigation.push("Recipe", { recipe: recipe.recipeId });
     };
 
     const onPressAuthor = function() {

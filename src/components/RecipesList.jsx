@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import RecipeItem from "./RecipeItem";
 
-const RecipesList = function() {
+const RecipesList = function({ navigation }) {
     const [recipes, setRecipes] = useState([]);
 
     const getAllRecipes = function() {
@@ -20,7 +20,7 @@ const RecipesList = function() {
     return (
         <ScrollView style={styles.container}>
             <View style={styles.recipesView}>
-                {recipes.map(recipe => <RecipeItem key={recipe.recipeId} recipe={recipe}/>)}
+                {recipes.map(recipe => <RecipeItem key={recipe.recipeId} recipe={recipe} navigation={navigation}/>)}
             </View>
         </ScrollView>
     );
