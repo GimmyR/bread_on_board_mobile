@@ -1,11 +1,12 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, Text } from "react-native";
+import { Button, SafeAreaView, StyleSheet, Text } from "react-native";
 import Navbar from "./components/Navbar";
+import ProfileHeader from "./components/ProfileHeader";
 
 const Profile = function({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.text}>Profile is here.</Text>
+            <ProfileHeader/>
             <Navbar navigation={navigation} active="profile"/>
         </SafeAreaView>
     );
