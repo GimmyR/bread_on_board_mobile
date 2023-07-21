@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Button, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import TextButton from "./TextButton";
+import ProfileNav from "./ProfileNav";
+import RecipeItem from "./RecipeItem";
 
-const ProfileView = function({ user, setUser, profileId }) {
+const ProfileView = function({ user, setUser, profileId, navigation }) {
     const [profile, setProfile] = useState(null);
+    const [recipes, setRecipes] = useState([]);
+    const [favorites, setFavorites] = useState([]);
 
     const logout = function() {
         fetch("http://192.168.88.16:8000/api/user/logout")
@@ -21,17 +25,41 @@ const ProfileView = function({ user, setUser, profileId }) {
         else fetch("http://192.168.88.16:8000/api/profile/" + profileId)
                 .then(response => response.json()
                 .then(res => {
-                    if(res.error <= 0)
+                    if(res.error <= 0) {
                         setProfile(res.data);
-                    else console.log(res);
+                        if(res.data.userId != user.userId)
+                            getRecipes();
+                    } else console.log(res);
                 }).catch(error => console.log(error)));
+    };
+
+    const getRecipes = function() {
+        fetch("http://192.168.88.16:8000/api/recipes-by-user/" + profile.userId)
+            .then(response => response.json()
+            .then(res => {
+                if(res.error <= 0) {
+                    setRecipes(res.data);
+                    setFavorites([]);
+                } else console.log(res);
+            }).catch(error => console.log(error)));
+    };
+
+    const getFavorites = function() {
+        fetch("http://192.168.88.16:8000/api/get-favorites/")
+            .then(response => response.json()
+            .then(res => {
+                if(res.error <= 0) {
+                    setFavorites(res.data);
+                    setRecipes([]);
+                } else console.log(res);
+            }).catch(error => console.log(error)));
     };
 
     useEffect(() => getProfile(), []);
 
     if(profile != null)
         return (
-            <ScrollView style={styles.container}>
+            <View style={styles.container}>
                 <View style={styles.informationsView}>
                     <View style={styles.pictureView}>
                         {profile.userImage == null ?
@@ -48,13 +76,16 @@ const ProfileView = function({ user, setUser, profileId }) {
                 
                 {user.userId == profile.userId &&
                 <View style={styles.navView}>
-
+                    <ProfileNav getRecipes={getRecipes} getFavorites={getFavorites}/>
                 </View>}
                 
-                <View style={styles.recipesView}>
-
-                </View>
-            </ScrollView>
+                <ScrollView style={styles.recipesScrollView}>
+                    <View style={styles.recipesView}>
+                        {recipes.map(recipe => <RecipeItem key={recipe.recipeId} recipe={recipe} navigation={navigation}/>)}
+                        {favorites.map(recipe => <RecipeItem key={recipe.recipeId} recipe={recipe} navigation={navigation}/>)}
+                    </View>
+                </ScrollView>
+            </View>
         );
     else return null;
 };
@@ -91,7 +122,7 @@ const styles = StyleSheet.create({
     },
 
     usernameText: {
-        color: "#696969",
+        color: "#000000",
         fontWeight: "bold",
         fontSize: 20,
         marginBottom: 5,
@@ -118,8 +149,13 @@ const styles = StyleSheet.create({
 
     },
 
-    recipesView: {
+    recipesScrollView: {
+        paddingVertical: 20
+    },
 
+    recipesView: {
+        flexDirection: "row",
+        justifyContent: "space-evenly"
     }
 });
 

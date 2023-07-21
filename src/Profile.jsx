@@ -28,7 +28,7 @@ const Profile = function({ navigation, route }) {
             <ProfileHeader/>
             {user == null ?
             <Login setUser={setUser}/> :
-            <ProfileView user={user} setUser={setUser} profileId={profileId}/>}
+            <ProfileView user={user} setUser={setUser} profileId={profileId} navigation={navigation}/>}
             <Navbar navigation={navigation} active="profile"/>
         </SafeAreaView>
     );
