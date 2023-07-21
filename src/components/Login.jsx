@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     },
 
     loginTitleTextButton: {
-        color: "white"
+        color: "#FFE16F"
     },
 
     pressedLoginTextButton: {
