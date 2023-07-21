@@ -10,7 +10,7 @@ const RecipeItem = function({ recipe, navigation }) {
     };
 
     const onPressAuthor = function() {
-        console.log(`GO TO PROFILE: ${recipe.recipeAuthor.userName}`);
+        navigation.push("Profile", { profile: recipe.recipeAuthor.userId });
     };
     
     return (
