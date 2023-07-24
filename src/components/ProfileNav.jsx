@@ -19,13 +19,6 @@ const ProfileNav = function({ getRecipes, getFavorites }) {
         getFavorites();
     };
 
-    useEffect(() => {
-        if(isActive.myRecipes && !isActive.myFavorites)
-            getRecipes();
-        else if(!isActive.myRecipes && isActive.myFavorites)
-            getFavorites();
-    }, []);
-
     return (
         <View style={styles.container}>
             <Link title="My Recipes" style={[ styles.myRecipes, isActive.myRecipes && styles.activeLink ]} onPress={pressMyRecipes}/>

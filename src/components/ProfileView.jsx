@@ -25,16 +25,18 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
         else fetch("http://192.168.88.16:8000/api/profile/" + profileId)
                 .then(response => response.json()
                 .then(res => {
-                    if(res.error <= 0) {
+                    if(res.error <= 0)
                         setProfile(res.data);
-                        if(res.data.userId != user.userId)
-                            getRecipes();
-                    } else console.log(res);
+                    else console.log(res);
                 }).catch(error => console.log(error)));
     };
 
     const getRecipes = function() {
-        fetch("http://192.168.88.16:8000/api/recipes-by-user/" + profileId)
+        var userId = user.userId;
+        if(profileId != undefined && profileId != null)
+            userId = profileId;
+            
+        fetch("http://192.168.88.16:8000/api/recipes-by-user/" + userId)
             .then(response => response.json()
             .then(res => {
                 if(res.error <= 0) {
@@ -55,7 +57,10 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
             }).catch(error => console.log(error)));
     };
 
-    useEffect(() => getProfile(), []);
+    useEffect(() => {
+        getProfile();
+        getRecipes();
+    }, []);
 
     if(profile != null)
         return (
