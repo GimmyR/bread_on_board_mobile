@@ -1,11 +1,12 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, Text } from "react-native";
 import Navbar from "./components/Navbar";
+import AddRecipeHeader from "./components/AddRecipeHeader";
 
 const AddRecipe = function({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.text}>Add recipe here.</Text>
+            <AddRecipeHeader/>
             <Navbar navigation={navigation} active="add-recipe"/>
         </SafeAreaView>
     );
