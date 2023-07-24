@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     },
 
     addButton: {
-        backgroundColor: "#ADADAD"
+        backgroundColor: "#878787"
     },
 
     addButtonTitle: {
