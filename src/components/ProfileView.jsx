@@ -34,7 +34,7 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
     };
 
     const getRecipes = function() {
-        fetch("http://192.168.88.16:8000/api/recipes-by-user/" + profile.userId)
+        fetch("http://192.168.88.16:8000/api/recipes-by-user/" + profileId)
             .then(response => response.json()
             .then(res => {
                 if(res.error <= 0) {
@@ -49,8 +49,8 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
             .then(response => response.json()
             .then(res => {
                 if(res.error <= 0) {
-                    setFavorites(res.data);
                     setRecipes([]);
+                    setFavorites(res.data);
                 } else console.log(res);
             }).catch(error => console.log(error)));
     };

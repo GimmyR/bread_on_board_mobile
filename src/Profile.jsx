@@ -10,14 +10,15 @@ const Profile = function({ navigation, route }) {
     const [profileId, setProfileId] = useState(null);
 
     const isAuth = function() {
+        if(route.params != undefined)
+            setProfileId(route.params.profile);
+            
         fetch("http://192.168.88.16:8000/api/user/auth")
             .then(response => response.json()
             .then(res => {
-                if(res.error <= 0) {
+                if(res.error <= 0) 
                     setUser(res.data);
-                    if(route.params != undefined)
-                        setProfileId(route.params.profile);
-                } else console.log(res);
+                else console.log(res);
             }).catch(error => console.log(error)));
     };
 
