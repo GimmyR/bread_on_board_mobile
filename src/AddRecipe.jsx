@@ -5,10 +5,52 @@ import AddRecipeHeader from "./components/AddRecipeHeader";
 import TitleInput from "./components/TitleInput";
 import ImageInput from "./components/ImageInput";
 import TextButton from "./components/TextButton";
+import IngredientInput from "./components/IngredientInput";
+import InstructionInput from "./components/InstructionInput";
 
 const AddRecipe = function({ navigation }) {
     const [recipeTitle, setRecipeTitle] = useState("");
     const [recipeImage, setRecipeImage] = useState(null);
+    const [ingredients, setIngredients] = useState([]);
+    const [instructions, setInstructions] = useState([]);
+
+    const addIngredient = function() {
+        ingredients.push({ ingredientDescription: "" });
+        setIngredients([...ingredients]);
+    };
+
+    const addInstruction = function() {
+        instructions.push({ instructionDetails: "" });
+        setInstructions([...instructions]);
+    };
+
+    const editIngredient = function(index, value) {
+        ingredients[index].ingredientDescription = value;
+        setIngredients([...ingredients]);
+    };
+
+    const editInstruction = function(index, value) {
+        instructions[index].instructionDetails = value;
+        setInstructions([...instructions]);
+    };
+
+    const removeIngredient = function(index) {
+        ingredients.splice(index, 1);
+        setIngredients([...ingredients]);
+    };
+
+    const removeInstruction = function(index) {
+        instructions.splice(index, 1);
+        setInstructions([...instructions]);
+    };
+
+    const saveRecipe = function() {
+        const recipe = {
+            title: recipeTitle,
+            ingredients: ingredients,
+            instructions: instructions
+        }; console.log(recipe);
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -23,12 +65,16 @@ const AddRecipe = function({ navigation }) {
                     <ImageInput value={recipeImage} onChangeText={setRecipeImage} title="browse"/>
                 </View>
                 <View style={styles.addIngredientView}>
-                    <TextButton title="Add ingredient" style={styles.addButton} titleStyle={styles.addButtonTitle}/>
+                    {ingredients.map((ingredient, index) => 
+                    <IngredientInput key={index} array={ingredients} index={index} onChangeText={editIngredient} remove={() => removeIngredient(index)} placeholder={ "Ingredient #" + (index + 1) } style={styles.ingredientInput}/>)}
+                    <TextButton title="Add ingredient" style={styles.addButton} titleStyle={styles.addButtonTitle} onPress={addIngredient}/>
                 </View>
                 <View style={styles.addInstructionView}>
-                    <TextButton title="Add instruction" style={styles.addButton} titleStyle={styles.addButtonTitle}/>
+                    {instructions.map((instruction, index) => 
+                    <InstructionInput key={index} array={instructions} index={index} onChangeText={editInstruction} remove={() => removeInstruction(index)} placeholder={ "Instruction #" + (index + 1) } style={styles.instructionInput}/>)}
+                    <TextButton title="Add instruction" style={styles.addButton} titleStyle={styles.addButtonTitle} onPress={addInstruction}/>
                 </View>
-                <TextButton title="Save recipe" style={styles.saveRecipe} titleStyle={styles.saveRecipeTitle}/>
+                <TextButton title="Save recipe" style={styles.saveRecipe} titleStyle={styles.saveRecipeTitle} onPress={saveRecipe}/>
             </ScrollView>
             <Navbar navigation={navigation} active="add-recipe"/>
         </SafeAreaView>
@@ -69,6 +115,14 @@ const styles = StyleSheet.create({
     },
 
     addIngredientView: {
+        marginBottom: 20
+    },
+
+    ingredientInput: {
+        marginBottom: 10
+    },
+
+    instructionInput: {
         marginBottom: 10
     },
 
@@ -77,7 +131,9 @@ const styles = StyleSheet.create({
     },
 
     saveRecipe: {
-        backgroundColor: "#5F9F5A"
+        backgroundColor: "#5F9F5A",
+        marginTop: 10,
+        marginBottom: 70
     },
 
     saveRecipeTitle: {
