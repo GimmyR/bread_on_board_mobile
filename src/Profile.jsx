@@ -16,7 +16,7 @@ const Profile = function({ navigation, route }) {
         fetch("http://192.168.88.16:8000/api/user/auth")
             .then(response => response.json()
             .then(res => {
-                if(res.error <= 0) 
+                if(res.error <= 0)
                     setUser(res.data);
                 else console.log(res);
             }).catch(error => console.log(error)));
@@ -27,9 +27,9 @@ const Profile = function({ navigation, route }) {
     return (
         <SafeAreaView style={styles.container}>
             <ProfileHeader/>
-            {user == null ?
-            <Login setUser={setUser}/> :
-            <ProfileView user={user} setUser={setUser} profileId={profileId} navigation={navigation}/>}
+            {user != null ? 
+            <ProfileView user={user} setUser={setUser} profileId={profileId} navigation={navigation}/> :
+            <Login setUser={setUser}/>}
             <Navbar navigation={navigation} active="profile"/>
         </SafeAreaView>
     );

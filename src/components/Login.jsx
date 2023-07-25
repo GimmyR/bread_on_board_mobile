@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Modal, ScrollView, StyleSheet, Text, View } from "react-native";
 import UsernameInput from "./UsernameInput";
 import PasswordInput from "./PasswordInput";
 import TextButton from "./TextButton";
