@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import Navbar from "./components/Navbar";
 import AddRecipeHeader from "./components/AddRecipeHeader";
@@ -47,10 +47,24 @@ const AddRecipe = function({ navigation }) {
     const saveRecipe = function() {
         const recipe = {
             title: recipeTitle,
+            image: recipeImage,
             ingredients: ingredients,
             instructions: instructions
-        }; console.log(recipe);
+        };
     };
+
+    const checkAuth = function() {
+        fetch("http://192.168.88.16:8000/api/user/auth")
+            .then(response => response.json()
+            .then(res => {
+                if(res.error <= 0) {
+                    if(res.data == null)
+                        navigation.push("Profile", { redirectTo: "Add Recipe" });
+                } else console.log(res);
+            }).catch(error => console.log(error)));
+    };
+
+    useEffect(() => checkAuth(), []);
 
     return (
         <SafeAreaView style={styles.container}>

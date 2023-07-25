@@ -4,7 +4,7 @@ import UsernameInput from "./UsernameInput";
 import PasswordInput from "./PasswordInput";
 import TextButton from "./TextButton";
 
-const Login = function({ setUser }) {
+const Login = function({ setUser, navigation, route }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -15,9 +15,11 @@ const Login = function({ setUser }) {
             body: JSON.stringify(user)
         }).then(response => response.json()
             .then(res => {
-                if(res.error <= 0)
-                    setUser(res.data);
-                else console.log(res);
+                if(res.error <= 0) {
+                    if(res.data != null && route.params != undefined && route.params.redirectTo != null)
+                        navigation.push(route.params.redirectTo);
+                    else setUser(res.data);
+                } else console.log(res);
             }).catch(error => console.log(error)));
     };
 
