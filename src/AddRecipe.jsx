@@ -97,8 +97,10 @@ const AddRecipe = function({ navigation }) {
                     <InstructionInput key={index} array={instructions} index={index} onChangeText={editInstruction} remove={() => removeInstruction(index)} placeholder={ "Instruction #" + (index + 1) } style={styles.instructionInput}/>)}
                     <TextButton title="Add instruction" style={styles.addButton} titleStyle={styles.addButtonTitle} onPress={addInstruction}/>
                 </View>
-                <TextButton title="Save recipe" style={styles.saveRecipe} titleStyle={styles.saveRecipeTitle} onPress={saveRecipe}/>
             </ScrollView>
+            <View style={styles.saveRecipeView}>
+                <TextButton title="Save recipe" style={styles.saveRecipe} titleStyle={styles.saveRecipeTitle} onPress={saveRecipe}/>
+            </View>
             <Navbar navigation={navigation} active="add-recipe"/>
         </SafeAreaView>
     );
@@ -150,13 +152,23 @@ const styles = StyleSheet.create({
     },
 
     addInstructionView: {
-        marginBottom: 10
+        marginBottom: 120
+    },
+
+    saveRecipeView: {
+        position: "absolute",
+        bottom: 60,
+        left: 0,
+        right: 0,
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        borderTopWidth: 1,
+        borderTopColor: "#D8D8D8",
+        backgroundColor: "white"
     },
 
     saveRecipe: {
-        backgroundColor: "#5F9F5A",
-        marginTop: 10,
-        marginBottom: 70
+        backgroundColor: "#5F9F5A"
     },
 
     saveRecipeTitle: {
