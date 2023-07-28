@@ -99,7 +99,7 @@ const AddRecipe = function({ navigation }) {
                 </View>
             </ScrollView>
             <View style={styles.saveRecipeView}>
-                <TextButton title="Save recipe" style={styles.saveRecipe} titleStyle={styles.saveRecipeTitle} onPress={saveRecipe}/>
+                <TextButton title="Save recipe" style={styles.saveRecipe} titleStyle={styles.saveRecipeTitle} pressedStyle={styles.saveRecipePressed} onPress={saveRecipe}/>
             </View>
             <Navbar navigation={navigation} active="add-recipe"/>
         </SafeAreaView>
@@ -174,6 +174,10 @@ const styles = StyleSheet.create({
     saveRecipeTitle: {
         color: "#FFE16F"
     },
+
+    saveRecipePressed: {
+        backgroundColor: "#548750"
+    }
 });
 
 export default AddRecipe;
