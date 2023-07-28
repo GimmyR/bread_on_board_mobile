@@ -30,7 +30,7 @@ const ImageInput = function({ value, onChangeText, title, style }) {
 
     return (
         <View style={styles.container}>
-            <TextInput defaultValue={value} onChangeText={setFilename} style={[ styles.textInput, style ]} editable={false}/>
+            <TextInput value={filename} onChangeText={setFilename} style={[ styles.textInput, style ]} editable={false}/>
             <TextButton title={title} style={styles.button} titleStyle={styles.buttonTitle} pressedStyle={styles.pressedButton} onPress={pickImage}/>
         </View>
     );
