@@ -51,6 +51,15 @@ const AddRecipe = function({ navigation }) {
             ingredients: ingredients,
             instructions: instructions
         };
+
+        fetch("http://192.168.88.16:8000/api/add-recipe", {
+            method: "POST",
+            body: JSON.stringify(recipe)
+        }).then(response => response.json()
+            .then(res => {
+                if(res.error <= 0)
+                    navigation.push("Recipe", { recipe: res.data });
+            }).catch(error => console.log(error)));
     };
 
     const checkAuth = function() {
