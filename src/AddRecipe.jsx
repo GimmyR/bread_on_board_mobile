@@ -13,6 +13,7 @@ const AddRecipe = function({ navigation }) {
     const [recipeImage, setRecipeImage] = useState(null);
     const [ingredients, setIngredients] = useState([]);
     const [instructions, setInstructions] = useState([]);
+    const [saveRecipeLoading, setSaveRecipeLoading] = useState(false);
 
     const addIngredient = function() {
         ingredients.push({ ingredientDescription: "" });
@@ -45,6 +46,8 @@ const AddRecipe = function({ navigation }) {
     };
 
     const saveRecipe = function() {
+        setSaveRecipeLoading(true);
+
         const recipe = {
             title: recipeTitle,
             image: recipeImage,
@@ -57,9 +60,13 @@ const AddRecipe = function({ navigation }) {
             body: JSON.stringify(recipe)
         }).then(response => response.json()
             .then(res => {
+                setSaveRecipeLoading(false);
                 if(res.error <= 0)
                     navigation.push("Recipe", { recipe: res.data });
-            }).catch(error => console.log(error)));
+            }).catch(error => { 
+                setSaveRecipeLoading(false);
+                console.log(error);
+            }));
     };
 
     const checkAuth = function() {
@@ -99,7 +106,7 @@ const AddRecipe = function({ navigation }) {
                 </View>
             </ScrollView>
             <View style={styles.saveRecipeView}>
-                <TextButton title="Save recipe" style={styles.saveRecipe} titleStyle={styles.saveRecipeTitle} pressedStyle={styles.saveRecipePressed} onPress={saveRecipe}/>
+                <TextButton title="Save recipe" style={styles.saveRecipe} titleStyle={styles.saveRecipeTitle} pressedStyle={styles.saveRecipePressed} onPress={saveRecipe} loading={saveRecipeLoading}/>
             </View>
             <Navbar navigation={navigation} active="add-recipe"/>
         </SafeAreaView>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, Text } from "react-native";
 
-const TextButton = function({ title, onPress, style, titleStyle, pressedStyle }) {
+const TextButton = function({ title, onPress, style, titleStyle, pressedStyle, loading = false }) {
     const [pressed, setPressed] = useState(false);
 
     return (
@@ -11,7 +11,9 @@ const TextButton = function({ title, onPress, style, titleStyle, pressedStyle })
             onPressOut={() => setPressed(false)} 
             style={[ styles.pressable, style, pressed && pressedStyle ]}>
 
-            <Text style={[ styles.text, titleStyle ]}>{title}</Text>
+            {loading ?
+            <ActivityIndicator color={titleStyle.color}/> :
+            <Text style={[ styles.text, titleStyle ]}>{title}</Text>}
             
         </Pressable>
     );
