@@ -5,8 +5,8 @@ import Home from "./Home";
 import { StatusBar } from "react-native";
 import AddRecipe from "./AddRecipe";
 import Profile from "./Profile";
-import Navbar from "./components/Navbar";
 import Recipe from "./Recipe";
+import EditRecipe from "./EditRecipe";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +21,7 @@ const App = function() {
                 <Stack.Screen name="Add Recipe" component={AddRecipe} options={screenOptions}/>
                 <Stack.Screen name="Profile" component={Profile} options={screenOptions}/>
                 <Stack.Screen name="Recipe" component={Recipe} options={screenOptions}/>
+                <Stack.Screen name="Edit Recipe" component={EditRecipe} options={screenOptions}/>
             </Stack.Navigator>
         </NavigationContainer>
     );

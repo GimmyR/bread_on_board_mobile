@@ -12,6 +12,10 @@ const RecipeHeader = function({ navigation, recipe }) {
         navigation.push("Home");
     };
 
+    const editRecipe = function() {
+        navigation.push("Edit Recipe", { recipe: recipe.recipeId });
+    };
+
     const refreshEdit = function() {
         fetch("http://192.168.88.16:8000/api/user/auth")
             .then(response => response.json()
@@ -34,7 +38,7 @@ const RecipeHeader = function({ navigation, recipe }) {
                 <Text style={styles.titleText}>Recipe</Text>
             </View>
             <View style={styles.blankView}>
-                {edit && <IconButton icon={faPenToSquare} size={icon.size - 3} color={icon.color}/>}
+                {edit && <IconButton icon={faPenToSquare} size={icon.size - 3} color={icon.color} onPress={editRecipe}/>}
             </View>
         </View>
     );
