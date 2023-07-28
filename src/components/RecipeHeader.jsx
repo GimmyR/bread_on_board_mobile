@@ -1,14 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import IconButton from "./IconButton";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
-const RecipeHeader = function({ navigation }) {
+const RecipeHeader = function({ navigation, recipe }) {
+    const [edit, setEdit] = useState(false);
+
     const icon = { size: 23, color: "white" };
 
     const goBack = function() {
         navigation.push("Home");
     };
+
+    const refreshEdit = function() {
+        fetch("http://192.168.88.16:8000/api/user/auth")
+            .then(response => response.json()
+            .then(res => {
+                if(res.error <= 0) {
+                    if(recipe != null && recipe.recipeAuthor.userId == res.data.userId)
+                        setEdit(true);
+                }
+            }).catch(error => console.log(error)));
+    };
+
+    useEffect(() => refreshEdit(), [recipe]);
 
     return (
         <View style={styles.container}>
@@ -18,7 +33,9 @@ const RecipeHeader = function({ navigation }) {
             <View style={styles.titleView}>
                 <Text style={styles.titleText}>Recipe</Text>
             </View>
-            <View style={styles.blankView}></View>
+            <View style={styles.blankView}>
+                {edit && <IconButton icon={faPenToSquare} size={icon.size - 3} color={icon.color}/>}
+            </View>
         </View>
     );
 };
@@ -51,7 +68,9 @@ const styles = StyleSheet.create({
     },
 
     blankView: {
-        flex: 1
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center"
     }
 });
 

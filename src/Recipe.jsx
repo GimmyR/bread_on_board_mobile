@@ -21,7 +21,7 @@ const Recipe = function({ navigation, route }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <RecipeHeader navigation={navigation}/>
+            <RecipeHeader navigation={navigation} recipe={recipe}/>
             {recipe != null && <RecipeView recipe={recipe}/>}
             <Navbar navigation={navigation}/>
         </SafeAreaView>
