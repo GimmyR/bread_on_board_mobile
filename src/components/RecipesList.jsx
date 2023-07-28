@@ -28,12 +28,16 @@ const RecipesList = function({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical: 20
+        paddingVertical: 20,
+        paddingHorizontal: 20
     },
 
     recipesView: {
         flexDirection: "row",
-        justifyContent: "space-evenly"
+        justifyContent: "flex-start",
+        flexWrap: "wrap",
+        columnGap: 20,
+        rowGap: 20
     }
 });
 

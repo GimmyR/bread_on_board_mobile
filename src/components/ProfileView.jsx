@@ -155,12 +155,15 @@ const styles = StyleSheet.create({
     },
 
     recipesScrollView: {
-        paddingVertical: 20
+        paddingVertical: 20,
+        paddingHorizontal: 20
     },
 
     recipesView: {
         flexDirection: "row",
-        justifyContent: "space-evenly"
+        justifyContent: "flex-start",
+        columnGap: 20,
+        rowGap: 20
     }
 });
 
