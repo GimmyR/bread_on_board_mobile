@@ -1,23 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import IconButton from "./IconButton";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import SearchInput from "./SearchInput";
 
-const HomeHeader = function() {
+const HomeHeader = function({ search, setSearch, getRecipes }) {
+    const [isSearching, setIsSearching] = useState(false);
+
     const icon = { size: 23, color: "white" };
 
-    const onPress = function() {
-        console.log("SEARCHING...");
+    const closeSearch = function() {
+        setIsSearching(false);
+        setSearch("");
     };
 
     return (
         <View style={styles.container}>
-            <View style={styles.brandView}>
-                <Text style={styles.brandText}>Bread on Board</Text>
-            </View>
-            <View style={styles.searchView}>
-                <IconButton icon={faMagnifyingGlass} size={icon.size} color={icon.color} onPress={onPress}/>
-            </View>
+            {isSearching ?
+            <SearchInput value={search} onChangeText={setSearch} closeSearch={closeSearch}/> :
+            <>
+                <View style={styles.brandView}>
+                    <Text style={styles.brandText}>Bread on Board</Text>
+                </View>
+                <View style={styles.searchView}>
+                    <IconButton icon={faMagnifyingGlass} size={icon.size} color={icon.color} onPress={() => setIsSearching(true)}/>
+                </View>
+            </>}
         </View>
     );
 };
