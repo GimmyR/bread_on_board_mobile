@@ -74,8 +74,12 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
                     <View style={styles.usernameView}>
                         <Text style={styles.usernameText}>{profile.userName}</Text>
                         {user.userId == profile.userId ?
-                        <TextButton title="Logout" style={styles.textButton} titleStyle={styles.titleTextButton} pressedStyle={styles.pressedTextButton} onPress={logout}/> :
-                        <TextButton title="Follow" style={styles.textButton} titleStyle={styles.titleTextButton} pressedStyle={styles.pressedTextButton}/>}
+                        <TextButton style={styles.textButton} pressedStyle={styles.pressedTextButton} onPress={logout}>
+                            <Text style={styles.titleTextButton}>Logout</Text>
+                        </TextButton> :
+                        <TextButton style={styles.textButton} pressedStyle={styles.pressedTextButton}>
+                            <Text style={styles.titleTextButton}>Follow</Text>
+                        </TextButton>}
                     </View>
                 </View>
                 
@@ -143,6 +147,8 @@ const styles = StyleSheet.create({
     },
 
     titleTextButton: {
+        textTransform: "uppercase",
+        fontWeight: "bold",
         color: "#FFFFFF"
     },
 

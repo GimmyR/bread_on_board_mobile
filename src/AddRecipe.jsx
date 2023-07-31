@@ -7,6 +7,8 @@ import ImageInput from "./components/ImageInput";
 import TextButton from "./components/TextButton";
 import IngredientInput from "./components/IngredientInput";
 import InstructionInput from "./components/InstructionInput";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const AddRecipe = function({ navigation }) {
     const [recipeTitle, setRecipeTitle] = useState("");
@@ -92,21 +94,29 @@ const AddRecipe = function({ navigation }) {
                 </View>
                 <View style={styles.imageView}>
                     <Text style={styles.labelText}>Recipe Image</Text>
-                    <ImageInput value={recipeImage} onChangeText={setRecipeImage} title="browse"/>
+                    <ImageInput value={recipeImage} onChangeText={setRecipeImage}/>
                 </View>
                 <View style={styles.addIngredientView}>
                     {ingredients.map((ingredient, index) => 
                     <IngredientInput key={index} array={ingredients} index={index} onChangeText={editIngredient} remove={() => removeIngredient(index)} placeholder={ "Ingredient #" + (index + 1) } style={styles.ingredientInput}/>)}
-                    <TextButton title="Add ingredient" style={styles.addButton} titleStyle={styles.addButtonTitle} onPress={addIngredient}/>
+                    <TextButton style={styles.addButton} onPress={addIngredient}>
+                        <FontAwesomeIcon icon={faPlus} color={styles.addButtonTitle.color} size={15} style={styles.addButtonIcon}/>
+                        <Text style={styles.addButtonTitle}>Add ingredient</Text>
+                    </TextButton>
                 </View>
                 <View style={styles.addInstructionView}>
                     {instructions.map((instruction, index) => 
                     <InstructionInput key={index} array={instructions} index={index} onChangeText={editInstruction} remove={() => removeInstruction(index)} placeholder={ "Instruction #" + (index + 1) } style={styles.instructionInput}/>)}
-                    <TextButton title="Add instruction" style={styles.addButton} titleStyle={styles.addButtonTitle} onPress={addInstruction}/>
+                    <TextButton style={styles.addButton} onPress={addInstruction}>
+                        <FontAwesomeIcon icon={faPlus} color={styles.addButtonTitle.color} size={15} style={styles.addButtonIcon}/>
+                        <Text style={styles.addButtonTitle}>Add instruction</Text>
+                    </TextButton>
                 </View>
             </ScrollView>
             <View style={styles.saveRecipeView}>
-                <TextButton title="Save recipe" style={styles.saveRecipe} titleStyle={styles.saveRecipeTitle} pressedStyle={styles.saveRecipePressed} onPress={saveRecipe} loading={saveRecipeLoading}/>
+                <TextButton style={styles.saveRecipe} pressedStyle={styles.saveRecipePressed} onPress={saveRecipe} loading={saveRecipeLoading} loadingColor={styles.saveRecipeTitle.color}>
+                    <Text style={styles.saveRecipeTitle}>Save Recipe</Text>
+                </TextButton>
             </View>
             <Navbar navigation={navigation} active="add-recipe"/>
         </SafeAreaView>
@@ -142,7 +152,13 @@ const styles = StyleSheet.create({
         backgroundColor: "#878787"
     },
 
+    addButtonIcon: {
+        marginRight: 3
+    },
+
     addButtonTitle: {
+        textTransform: "uppercase",
+        fontWeight: "bold",
         color: "white"
     },
 
@@ -179,6 +195,8 @@ const styles = StyleSheet.create({
     },
 
     saveRecipeTitle: {
+        textTransform: "uppercase",
+        fontWeight: "bold",
         color: "#FFE16F"
     },
 

@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import TextButton from "./TextButton";
 import DocumentPicker from "react-native-document-picker";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faFolderOpen } from "@fortawesome/free-regular-svg-icons";
 
-const ImageInput = function({ value, onChangeText, title, style }) {
+const ImageInput = function({ value, onChangeText, style }) {
     const [filename, setFilename] = useState("");
 
     const pickImage = function() {
@@ -31,7 +33,9 @@ const ImageInput = function({ value, onChangeText, title, style }) {
     return (
         <View style={styles.container}>
             <TextInput value={filename} onChangeText={setFilename} style={[ styles.textInput, style ]} editable={false}/>
-            <TextButton title={title} style={styles.button} titleStyle={styles.buttonTitle} pressedStyle={styles.pressedButton} onPress={pickImage}/>
+            <TextButton style={styles.button} pressedStyle={styles.pressedButton} onPress={pickImage}>
+                <FontAwesomeIcon icon={faFolderOpen} color={styles.buttonTitle.color} size={15}/>
+            </TextButton>
         </View>
     );
 };
@@ -43,7 +47,7 @@ const styles = StyleSheet.create({
     },
 
     textInput: {
-        flex: 5,
+        flex: 8,
         fontSize: 13,
         color: "#5E5E5E",
         backgroundColor: "#CECECE",

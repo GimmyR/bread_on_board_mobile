@@ -33,7 +33,9 @@ const Login = function({ setUser, navigation, route }) {
                 <Text style={styles.passwordText}>Password</Text>
                 <PasswordInput value={password} onChangeText={setPassword}/>
             </View>
-            <TextButton title="Login" onPress={login} style={styles.loginTextButton} titleStyle={styles.loginTitleTextButton} pressedStyle={styles.pressedLoginTextButton}/>
+            <TextButton onPress={login} style={styles.loginTextButton} pressedStyle={styles.pressedLoginTextButton}>
+                <Text style={styles.loginTitleTextButton}>Login</Text>
+            </TextButton>
         </ScrollView>
     );
 };
@@ -69,6 +71,8 @@ const styles = StyleSheet.create({
     },
 
     loginTitleTextButton: {
+        textTransform: "uppercase",
+        fontWeight: "bold",
         color: "#FFE16F"
     },
 

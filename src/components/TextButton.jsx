@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text } from "react-native";
 
-const TextButton = function({ title, onPress, style, titleStyle, pressedStyle, loading = false }) {
+const TextButton = function({ onPress, style, pressedStyle, loading = false, loadingColor, children }) {
     const [pressed, setPressed] = useState(false);
 
     return (
@@ -12,8 +12,8 @@ const TextButton = function({ title, onPress, style, titleStyle, pressedStyle, l
             style={[ styles.pressable, style, pressed && pressedStyle ]}>
 
             {loading ?
-            <ActivityIndicator color={titleStyle.color}/> :
-            <Text style={[ styles.text, titleStyle ]}>{title}</Text>}
+            <ActivityIndicator color={loadingColor}/> :
+            children}
             
         </Pressable>
     );
@@ -21,15 +21,12 @@ const TextButton = function({ title, onPress, style, titleStyle, pressedStyle, l
 
 const styles = StyleSheet.create({
     pressable: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
         borderRadius: 3,
         paddingHorizontal: 10,
         paddingVertical: 12
-    },
-
-    text: {
-        textAlign: "center",
-        textTransform: "uppercase",
-        fontWeight: "bold"
     }
 });
 
