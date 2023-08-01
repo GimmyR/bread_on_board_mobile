@@ -3,6 +3,7 @@ import { Button, Image, ScrollView, StyleSheet, Text, View } from "react-native"
 import TextButton from "./TextButton";
 import ProfileNav from "./ProfileNav";
 import RecipeItem from "./RecipeItem";
+import FavoriteItem from "./FavoriteItem";
 
 const ProfileView = function({ user, setUser, profileId, navigation }) {
     const [profile, setProfile] = useState(null);
@@ -91,7 +92,7 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
                 <ScrollView style={styles.recipesScrollView}>
                     <View style={styles.recipesView}>
                         {recipes.map(recipe => <RecipeItem key={recipe.recipeId} recipe={recipe} navigation={navigation}/>)}
-                        {favorites.map(recipe => <RecipeItem key={recipe.recipeId} recipe={recipe} navigation={navigation}/>)}
+                        {favorites.map(recipe => <FavoriteItem key={recipe.recipeId} recipe={recipe} navigation={navigation} refreshFavorites={getFavorites}/>)}
                     </View>
                 </ScrollView>
             </View>
