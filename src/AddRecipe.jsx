@@ -9,6 +9,7 @@ import IngredientInput from "./components/IngredientInput";
 import InstructionInput from "./components/InstructionInput";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { serverURL } from "./helpers";
 
 const AddRecipe = function({ navigation }) {
     const [recipeTitle, setRecipeTitle] = useState("");
@@ -57,7 +58,7 @@ const AddRecipe = function({ navigation }) {
             instructions: instructions
         };
 
-        fetch("http://192.168.88.16:8000/api/add-recipe", {
+        fetch(serverURL + "/api/add-recipe", {
             method: "POST",
             body: JSON.stringify(recipe)
         }).then(response => response.json()
@@ -72,10 +73,10 @@ const AddRecipe = function({ navigation }) {
     };
 
     const checkAuth = function() {
-        fetch("http://192.168.88.16:8000/api/user/auth")
+        fetch(serverURL + "/user/auth")
             .then(response => response.json()
             .then(res => {
-                if(res.error <= 0) {
+                if(!res.error) {
                     if(res.data == null)
                         navigation.push("Profile", { redirectTo: "Add Recipe" });
                 } else console.log(res);

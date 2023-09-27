@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import ProfileHeader from "./components/ProfileHeader";
 import Login from "./components/Login";
 import ProfileView from "./components/ProfileView";
+import { serverURL } from "./helpers";
 
 const Profile = function({ navigation, route }) {
     const [user, setUser] = useState(null);
@@ -13,7 +14,7 @@ const Profile = function({ navigation, route }) {
         if(route.params != undefined)
             setProfileId(route.params.profile);
             
-        fetch("http://192.168.88.16:8000/api/user/auth")
+        fetch(serverURL + "/user/auth")
             .then(response => response.json()
             .then(res => {
                 if(res.error <= 0)
