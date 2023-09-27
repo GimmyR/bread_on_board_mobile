@@ -11,7 +11,7 @@ const Instruction = function({ instruction }) {
                 <CheckBox value={checked} setValue={setChecked} color="#000000" checkedColor="#797979" size={20}/>
             </View>
             <View style={styles.instructionDetailsView}>
-                <Text style={checked ? styles.instructionDetailsTextChecked : styles.instructionDetailsText}>{instruction.instructionDetails}</Text>
+                <Text style={checked ? styles.instructionDetailsTextChecked : styles.instructionDetailsText}>{instruction.details}</Text>
             </View>
         </View>
     );

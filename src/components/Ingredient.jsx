@@ -4,7 +4,7 @@ import { StyleSheet, Text } from "react-native";
 const Ingredient = function({ ingredient, index, length }) {
     return (
         <Text style={styles.ingredientText}>
-            {ingredient.ingredientDescription}{(index < length - 1) && <Text>, </Text>}
+            {ingredient.description}{(index < length - 1) && <Text>, </Text>}
         </Text>
     );
 };

@@ -3,15 +3,16 @@ import { SafeAreaView, StyleSheet } from "react-native";
 import Navbar from "./components/Navbar";
 import RecipeHeader from "./components/RecipeHeader";
 import RecipeView from "./components/RecipeView";
+import { serverURL } from "./helpers";
 
 const Recipe = function({ navigation, route }) {
     const [recipe, setRecipe] = useState(null);
 
     const getRecipe = function() {
-        fetch("http://192.168.88.16:8000/api/recipe/" + route.params.recipe)
+        fetch(serverURL + "/api/recipe/" + route.params.recipe)
             .then(response => response.json()
             .then(res => {
-                if(res.error <= 0)
+                if(!res.error)
                     setRecipe(res.data);
                 else console.log(res);
             }).catch(error => console.log(error)));

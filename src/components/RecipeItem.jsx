@@ -4,22 +4,21 @@ import Link from "./Link";
 import IconButton from "./IconButton";
 import { faHeart as faHeartR } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartS } from "@fortawesome/free-solid-svg-icons";
+import { serverURL } from "../helpers";
 
 const RecipeItem = function({ recipe, navigation }) {
     const [isFavorite, setIsFavorite] = useState(false);
 
-    const source = { uri: "http://192.168.88.16:8000/images/recipes/" + recipe.recipeImage };
-
     const onPressRecipe = function() {
-        navigation.push("Recipe", { recipe: recipe.recipeId });
+        navigation.push("Recipe", { recipe: recipe.id });
     };
 
     const onPressAuthor = function() {
-        navigation.push("Profile", { profile: recipe.recipeAuthor.userId });
+        navigation.push("Profile", { profile: recipe.user.id });
     };
 
     const addFavorite = function() {
-        fetch("http://192.168.88.16:8000/api/" + (isFavorite ? "remove-favorite" : "add-favorite") + "/" + recipe.recipeId)
+        fetch(serverURL + "/api/" + (isFavorite ? "remove-favorite" : "add-favorite") + "/" + recipe.id)
             .then(response => response.json()
             .then(res => {
                 if(res.error <= 0)
@@ -29,10 +28,10 @@ const RecipeItem = function({ recipe, navigation }) {
     };
 
     const checkFavorite = function() {
-        fetch("http://192.168.88.16:8000/api/is-favorite/" + recipe.recipeId)
+        fetch(serverURL + "/is-favorite/" + recipe.id)
             .then(response => response.json()
             .then(res => {
-                if(res.error <= 0)
+                if(!res.error)
                     setIsFavorite(res.data);
             }).catch(error => console.log(error)));
     };
@@ -43,10 +42,10 @@ const RecipeItem = function({ recipe, navigation }) {
         <View style={styles.container}>
             <Pressable onPress={onPressRecipe}>
                 <View style={styles.recipeTitleView}>
-                    <Text style={styles.recipeTitleText} numberOfLines={1}>{recipe.recipeTitle}</Text>
+                    <Text style={styles.recipeTitleText} numberOfLines={1}>{recipe.title}</Text>
                 </View>
                 <View>
-                    <Image source={source} style={styles.recipeImage}/>
+                    <Image src={serverURL + "/storage/" + recipe.image} style={styles.recipeImage}/>
                 </View>
             </Pressable>
             <View style={styles.recipeFavoriteAuthorView}>
@@ -57,7 +56,7 @@ const RecipeItem = function({ recipe, navigation }) {
                 </View>
                 <View style={styles.recipeAuthorView}>
                     <Text style={styles.recipeByText}>by</Text>
-                    <Link title={recipe.recipeAuthor.userName} style={styles.recipeAuthorText} onPress={onPressAuthor}/>
+                    <Link title={recipe.user.name} style={styles.recipeAuthorText} onPress={onPressAuthor}/>
                 </View>
             </View>
         </View>

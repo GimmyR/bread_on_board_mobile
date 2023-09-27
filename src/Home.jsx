@@ -3,21 +3,20 @@ import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import Navbar from "./components/Navbar";
 import HomeHeader from "./components/HomeHeader";
 import RecipeItem from "./components/RecipeItem";
+import { serverURL } from "./helpers";
 
 const Home = function({ navigation }) {
     const [search, setSearch] = useState(null);
     const [recipes, setRecipes] = useState([]);
 
     const getAllRecipes = function() {
-        fetch("http://192.168.88.16:8000/api/recipes", {
-            method: "POST",
-            body: JSON.stringify({ search: search })
-        }).then(response => response.json()
+        fetch(serverURL + "/api/all-recipes")
+            .then(response => response.json()
             .then(res => {
-                if(res.error <= 0) {
+                if(!res.error) {
                     setRecipes(res.data);
                 } else console.log(res);
-            }).catch(error => console.log(error)));
+            }).catch(error => console.log("ERROR: ", error)));
     };
 
     useEffect(() => getAllRecipes(), [search]);
@@ -27,7 +26,7 @@ const Home = function({ navigation }) {
             <HomeHeader search={search} setSearch={setSearch} getRecipes={getAllRecipes}/>
             <ScrollView style={styles.scrollView}>
                 <View style={styles.recipesView}>
-                    {recipes.map(recipe => <RecipeItem key={recipe.recipeId} recipe={recipe} navigation={navigation}/>)}
+                    {recipes.map(recipe => <RecipeItem key={recipe.id} recipe={recipe} navigation={navigation}/>)}
                 </View>
             </ScrollView>
             <Navbar navigation={navigation} active="home"/>

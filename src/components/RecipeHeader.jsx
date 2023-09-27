@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import IconButton from "./IconButton";
 import { faArrowLeft, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { serverURL } from "../helpers";
 
 const RecipeHeader = function({ navigation, recipe }) {
     const [edit, setEdit] = useState(false);
@@ -17,14 +18,14 @@ const RecipeHeader = function({ navigation, recipe }) {
     };
 
     const refreshEdit = function() {
-        fetch("http://192.168.88.16:8000/api/user/auth")
+        /*fetch(serverURL + "/api/user/auth")
             .then(response => response.json()
             .then(res => {
                 if(res.error <= 0) {
                     if(recipe != null && recipe.recipeAuthor.userId == res.data.userId)
                         setEdit(true);
                 }
-            }).catch(error => console.log(error)));
+            }).catch(error => console.log(error)));*/
     };
 
     useEffect(() => refreshEdit(), [recipe]);
