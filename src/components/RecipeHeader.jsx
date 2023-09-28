@@ -14,18 +14,18 @@ const RecipeHeader = function({ navigation, recipe }) {
     };
 
     const editRecipe = function() {
-        navigation.push("Edit Recipe", { recipe: recipe.recipeId });
+        navigation.push("Edit Recipe", { recipe: recipe.id });
     };
 
     const refreshEdit = function() {
-        /*fetch(serverURL + "/api/user/auth")
+        fetch(serverURL + "/user/auth")
             .then(response => response.json()
             .then(res => {
                 if(res.error <= 0) {
-                    if(recipe != null && recipe.recipeAuthor.userId == res.data.userId)
+                    if(recipe != null && recipe.user.id == res.data.id)
                         setEdit(true);
                 }
-            }).catch(error => console.log(error)));*/
+            }).catch(error => console.log(error)));
     };
 
     useEffect(() => refreshEdit(), [recipe]);
