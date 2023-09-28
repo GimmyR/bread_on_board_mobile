@@ -17,7 +17,7 @@ const Profile = function({ navigation, route }) {
         fetch(serverURL + "/user/auth")
             .then(response => response.json()
             .then(res => {
-                if(res.error <= 0)
+                if(!res.error)
                     setUser(res.data);
                 else console.log(res);
             }).catch(error => console.log(error)));
@@ -30,7 +30,7 @@ const Profile = function({ navigation, route }) {
             <ProfileHeader/>
             {user != null ? 
             <ProfileView user={user} setUser={setUser} profileId={profileId} navigation={navigation}/> :
-            <Login setUser={setUser} navigation={navigation} route={route}/>}
+            <Login setUser={isAuth} navigation={navigation} route={route}/>}
             <Navbar navigation={navigation} active="profile"/>
         </SafeAreaView>
     );

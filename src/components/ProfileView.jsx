@@ -4,6 +4,7 @@ import TextButton from "./TextButton";
 import ProfileNav from "./ProfileNav";
 import RecipeItem from "./RecipeItem";
 import FavoriteItem from "./FavoriteItem";
+import { serverURL } from "../helpers";
 
 const ProfileView = function({ user, setUser, profileId, navigation }) {
     const [profile, setProfile] = useState(null);
@@ -11,10 +12,10 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
     const [favorites, setFavorites] = useState([]);
 
     const logout = function() {
-        fetch("http://192.168.88.16:8000/api/user/logout")
+        fetch(serverURL + "/user/logout")
             .then(response => response.json()
             .then(res => {
-                if(res.error <= 0)
+                if(!res.error)
                     setUser(res.data);
                 else console.log(res);
             }).catch(error => console.log(error)));
@@ -33,28 +34,32 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
     };
 
     const getRecipes = function() {
-        var userId = user.userId;
+        setRecipes([]);
+        setFavorites([]);
+
+        var userId = user.id;
         if(profileId != undefined && profileId != null)
             userId = profileId;
             
-        fetch("http://192.168.88.16:8000/api/recipes-by-user/" + userId)
+        fetch(serverURL + "/recipes/" + userId)
             .then(response => response.json()
             .then(res => {
-                if(res.error <= 0) {
+                if(res.error <= 0)
                     setRecipes(res.data);
-                    setFavorites([]);
-                } else console.log(res);
+                else console.log(res);
             }).catch(error => console.log(error)));
     };
 
     const getFavorites = function() {
-        fetch("http://192.168.88.16:8000/api/get-favorites/")
+        setRecipes([]);
+        setFavorites([]);
+
+        fetch(serverURL + "/favorites/" + user.id)
             .then(response => response.json()
             .then(res => {
-                if(res.error <= 0) {
-                    setRecipes([]);
+                if(res.error <= 0)
                     setFavorites(res.data);
-                } else console.log(res);
+                else console.log(res);
             }).catch(error => console.log(error)));
     };
 
@@ -68,13 +73,13 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
             <View style={styles.container}>
                 <View style={styles.informationsView}>
                     <View style={styles.pictureView}>
-                        {profile.userImage == null ?
-                        <Text style={styles.initialText}>{profile.userName.charAt(0).toUpperCase()}</Text> :
-                        <Image source={{ uri: "http://192.168.88.16:8000/images/user_accounts/" + profile.userImage }}/>}
+                        {profile.image == null ?
+                        <Text style={styles.initialText}>{profile.name.charAt(0).toUpperCase()}</Text> :
+                        <Image src={serverURL + "/storage/" + profile.image }/>}
                     </View>
                     <View style={styles.usernameView}>
-                        <Text style={styles.usernameText}>{profile.userName}</Text>
-                        {user.userId == profile.userId ?
+                        <Text style={styles.usernameText}>{profile.name}</Text>
+                        {user.id == profile.id ?
                         <TextButton style={styles.textButton} pressedStyle={styles.pressedTextButton} onPress={logout}>
                             <Text style={styles.titleTextButton}>Logout</Text>
                         </TextButton> :
@@ -84,15 +89,15 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
                     </View>
                 </View>
                 
-                {user.userId == profile.userId &&
+                {user.id == profile.id &&
                 <View style={styles.navView}>
                     <ProfileNav getRecipes={getRecipes} getFavorites={getFavorites}/>
                 </View>}
                 
                 <ScrollView style={styles.recipesScrollView}>
                     <View style={styles.recipesView}>
-                        {recipes.map(recipe => <RecipeItem key={recipe.recipeId} recipe={recipe} navigation={navigation}/>)}
-                        {favorites.map(recipe => <FavoriteItem key={recipe.recipeId} recipe={recipe} navigation={navigation} refreshFavorites={getFavorites}/>)}
+                        {recipes.map(recipe => <RecipeItem key={recipe.id} recipe={recipe} navigation={navigation}/>)}
+                        {favorites.map(favorite => <FavoriteItem key={favorite.recipeId} recipe={favorite.recipe} navigation={navigation} refreshFavorites={getFavorites}/>)}
                     </View>
                 </ScrollView>
             </View>
@@ -137,7 +142,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginBottom: 5,
         width: 100,
-        textAlign: "center"
+        textAlign: "start"
     },
 
     textButton: {

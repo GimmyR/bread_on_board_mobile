@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, TextInput } from "react-native";
 
-const UsernameInput = function({ value, onChangeText, style }) {
+const EmailInput = function({ value, onChangeText, style }) {
     return (
         <TextInput value={value} onChangeText={onChangeText} style={[ styles.textInput, style ]}/>
     );
@@ -18,4 +18,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default UsernameInput;
+export default EmailInput;

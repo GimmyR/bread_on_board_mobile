@@ -18,7 +18,7 @@ const RecipeItem = function({ recipe, navigation }) {
     };
 
     const addFavorite = function() {
-        fetch(serverURL + "/api/" + (isFavorite ? "remove-favorite" : "add-favorite") + "/" + recipe.id)
+        fetch(serverURL + (isFavorite ? "/remove-favorite/" : "/add-favorite/") + recipe.id)
             .then(response => response.json()
             .then(res => {
                 if(res.error <= 0)
