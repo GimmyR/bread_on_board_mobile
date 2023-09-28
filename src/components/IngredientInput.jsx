@@ -7,7 +7,7 @@ import { faMinus } from "@fortawesome/free-solid-svg-icons";
 const IngredientInput = function({ array, index, placeholder, onChangeText, style, remove }) {
     return (
         <View style={[styles.container, style]}>
-            <TextInput value={array[index].ingredientDescription} onChangeText={text => onChangeText(index, text)} style={styles.textInput} placeholder={placeholder} placeholderTextColor={ "#5E5E5E" }/>
+            <TextInput value={array[index].description} onChangeText={text => onChangeText(index, text)} style={styles.textInput} placeholder={placeholder} placeholderTextColor={ "#5E5E5E" }/>
             <TextButton style={styles.textButton} onPress={remove}>
                 <FontAwesomeIcon icon={faMinus} color={styles.textButtonTitle.color} size={15}/>
             </TextButton>

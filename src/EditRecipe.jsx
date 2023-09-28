@@ -9,6 +9,7 @@ import InstructionInput from "./components/InstructionInput";
 import EditRecipeHeader from "./components/EditRecipeHeader";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { serverURL } from "./helpers";
 
 const EditRecipe = function({ navigation, route }) {
     const [recipe, setRecipe] = useState({});
@@ -48,32 +49,14 @@ const EditRecipe = function({ navigation, route }) {
         setInstructions([...instructions]);
     };
 
-    const getIngredients = function() {
-        fetch("http://192.168.88.16:8000/api/ingredients/" + route.params.recipe)
-            .then(response => response.json()
-            .then(res => {
-                if(res.error <= 0)
-                    setIngredients(res.data);
-            }).catch(error => console.log(error)));
-    };
-
-    const getInstructions = function() {
-        fetch("http://192.168.88.16:8000/api/instructions/" + route.params.recipe)
-            .then(response => response.json()
-            .then(res => {
-                if(res.error <= 0)
-                    setInstructions(res.data);
-            }).catch(error => console.log(error)));
-    };
-
     const getRecipe = function() {
-        fetch("http://192.168.88.16:8000/api/recipe/" + route.params.recipe)
+        fetch(serverURL + "/api/recipe/" + route.params.recipe)
             .then(response => response.json()
             .then(res => {
                 if(res.error <= 0) {
                     setRecipe(res.data);
-                    getIngredients();
-                    getInstructions();
+                    setIngredients(res.data.ingredients);
+                    setInstructions(res.data.instructions);
                 }
             }).catch(error => console.log(error)));
     };
@@ -103,7 +86,7 @@ const EditRecipe = function({ navigation, route }) {
     };
 
     const checkAuth = function() {
-        fetch("http://192.168.88.16:8000/api/user/auth")
+        fetch(serverURL + "/user/auth")
             .then(response => response.json()
             .then(res => {
                 if(res.error <= 0) {
@@ -122,7 +105,7 @@ const EditRecipe = function({ navigation, route }) {
             <ScrollView style={styles.scrollView}>
                 <View style={styles.titleView}>
                     <Text style={styles.labelText}>Recipe Title</Text>
-                    <TitleInput value={recipe.recipeTitle} onChangeText={setTitle}/>
+                    <TitleInput value={recipe.title} onChangeText={setTitle}/>
                 </View>
                 <View style={styles.imageView}>
                     <Text style={styles.labelText}>Recipe Image</Text>
@@ -146,7 +129,7 @@ const EditRecipe = function({ navigation, route }) {
                 </View>
             </ScrollView>
             <View style={styles.saveRecipeView}>
-                <TextButton style={styles.saveRecipe} pressedStyle={styles.saveRecipePressed} onPress={saveRecipe} loading={saveRecipeLoading} loadingColor={saveRecipeTitle.color}>
+                <TextButton style={styles.saveRecipe} pressedStyle={styles.saveRecipePressed} onPress={saveRecipe} loading={saveRecipeLoading} loadingColor={styles.saveRecipeTitle.color}>
                     <Text style={styles.saveRecipeTitle}>Save Recipe</Text>
                 </TextButton>
             </View>
