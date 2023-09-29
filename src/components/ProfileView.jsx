@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginBottom: 5,
         width: 100,
-        textAlign: "start"
+        textAlign: "left"
     },
 
     textButton: {
