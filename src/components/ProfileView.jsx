@@ -24,10 +24,10 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
     const getProfile = function() {
         if(profileId == undefined || profileId == null)
             setProfile({...user});
-        else fetch("http://192.168.88.16:8000/api/profile/" + profileId)
+        else fetch(serverURL + "/api/user/profile/" + profileId)
                 .then(response => response.json()
                 .then(res => {
-                    if(res.error <= 0)
+                    if(!res.error)
                         setProfile(res.data);
                     else console.log(res);
                 }).catch(error => console.log(error)));
@@ -44,7 +44,7 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
         fetch(serverURL + "/recipes/" + userId)
             .then(response => response.json()
             .then(res => {
-                if(res.error <= 0)
+                if(!res.error)
                     setRecipes(res.data);
                 else console.log(res);
             }).catch(error => console.log(error)));
@@ -57,7 +57,7 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
         fetch(serverURL + "/favorites/" + user.id)
             .then(response => response.json()
             .then(res => {
-                if(res.error <= 0)
+                if(!res.error)
                     setFavorites(res.data);
                 else console.log(res);
             }).catch(error => console.log(error)));
@@ -97,7 +97,7 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
                 <ScrollView style={styles.recipesScrollView}>
                     <View style={styles.recipesView}>
                         {recipes.map(recipe => <RecipeItem key={recipe.id} recipe={recipe} navigation={navigation}/>)}
-                        {favorites.map(favorite => <FavoriteItem key={favorite.recipeId} recipe={favorite.recipe} navigation={navigation} refreshFavorites={getFavorites}/>)}
+                        {favorites.map(favorite => <FavoriteItem key={favorite.id} recipe={favorite.recipe} navigation={navigation} refreshFavorites={getFavorites}/>)}
                     </View>
                 </ScrollView>
             </View>
@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
     recipesView: {
         flexDirection: "row",
         justifyContent: "flex-start",
+        flexWrap: "wrap",
         columnGap: 20,
         rowGap: 20
     }
