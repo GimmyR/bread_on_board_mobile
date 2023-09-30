@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import Navbar from "./components/Navbar";
 import TitleInput from "./components/TitleInput";
 import ImageInput from "./components/ImageInput";
@@ -10,32 +10,34 @@ import EditRecipeHeader from "./components/EditRecipeHeader";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { serverURL } from "./helpers";
+import axios from "axios";
+import RNFS from "react-native-fs";
 
 const EditRecipe = function({ navigation, route }) {
     const [recipe, setRecipe] = useState({});
     const [title, setTitle] = useState(null);
-    const [image, setImage] = useState({ type: null, content: null });
+    const [image, setImage] = useState(null);
     const [ingredients, setIngredients] = useState([]);
     const [instructions, setInstructions] = useState([]);
     const [saveRecipeLoading, setSaveRecipeLoading] = useState(false);
 
     const addIngredient = function() {
-        ingredients.push({ ingredientDescription: "" });
+        ingredients.push({ description: "" });
         setIngredients([...ingredients]);
     };
 
     const addInstruction = function() {
-        instructions.push({ instructionDetails: "" });
+        instructions.push({ details: "" });
         setInstructions([...instructions]);
     };
 
     const editIngredient = function(index, value) {
-        ingredients[index].ingredientDescription = value;
+        ingredients[index].description = value;
         setIngredients([...ingredients]);
     };
 
     const editInstruction = function(index, value) {
-        instructions[index].instructionDetails = value;
+        instructions[index].details = value;
         setInstructions([...instructions]);
     };
 
@@ -55,13 +57,14 @@ const EditRecipe = function({ navigation, route }) {
             .then(res => {
                 if(res.error <= 0) {
                     setRecipe(res.data);
+                    setTitle(res.data.title);
                     setIngredients(res.data.ingredients);
                     setInstructions(res.data.instructions);
                 }
             }).catch(error => console.log(error)));
     };
 
-    const saveRecipe = function() {
+    /*const saveRecipe = function() {
         setSaveRecipeLoading(true);
 
         const json = {
@@ -83,6 +86,76 @@ const EditRecipe = function({ navigation, route }) {
                 setSaveRecipeLoading(false);
                 console.log(error);
             }));
+    };*/
+
+    /*const saveRecipe = function() {
+        setSaveRecipeLoading(true);
+
+        axios.get(serverURL + "/api/user/csrf-token")
+            .then(response1 => {
+                axios.post(serverURL + "/api/edit-recipe/" + recipe.id, {
+                    _token: response1.data,
+                    title: title,
+                    image: image,
+                    ingredients: ingredients,
+                    instructions: instructions
+                }).then(response2 => {
+
+                    setSaveRecipeLoading(false);
+                    if(!response2.data.error)
+                        navigation.push("Recipe", { recipe: response2.data.data });
+                    else console.log(response2.data);
+
+                }).catch(error => {
+                    if(error.response)
+                        console.log("ERROR3: ", error.response.data);
+                    else console.log("ERROR2: ", error.toJSON());
+                });
+            }).catch(error => console.log("ERROR1: ", error));
+    };*/
+
+    const createFormData = function(token) {
+        const data = new FormData();
+
+        data.append("_token", token);
+        data.append("title", title);
+
+        if(image) {
+            data.append("image", {
+                name: image.fileName,
+                type: image.type,
+                uri: Platform.OS === "ios" ? image.uri.replace("file://", "") : image.uri
+            });
+        }
+
+        data.append("ingredients", JSON.stringify(ingredients));
+        data.append("instructions", JSON.stringify(instructions));
+
+        return data;
+    };
+
+    const saveRecipe = function() {
+        setSaveRecipeLoading(true);
+
+        axios.get(serverURL + "/api/user/csrf-token")
+            .then(response1 => {
+                axios.post(serverURL + "/api/edit-recipe/" + recipe.id, createFormData(response1.data), {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                }).then(response2 => {
+
+                    setSaveRecipeLoading(false);
+                    if(!response2.data.error)
+                        navigation.push("Recipe", { recipe: response2.data.data });
+                    else console.log("ERROR4: ", response2.data);
+
+                }).catch(error => {
+                    if(error.response)
+                        console.log("ERROR3: ", error.response.data);
+                    else console.log("ERROR2: ", error.toJSON());
+                });
+            }).catch(error => console.log("ERROR1: ", error));
     };
 
     const checkAuth = function() {
