@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import Navbar from "./components/Navbar";
 import AddRecipeHeader from "./components/AddRecipeHeader";
 import TitleInput from "./components/TitleInput";
@@ -10,6 +10,7 @@ import InstructionInput from "./components/InstructionInput";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { serverURL } from "./helpers";
+import axios from "axios";
 
 const AddRecipe = function({ navigation }) {
     const [recipeTitle, setRecipeTitle] = useState("");
@@ -19,22 +20,22 @@ const AddRecipe = function({ navigation }) {
     const [saveRecipeLoading, setSaveRecipeLoading] = useState(false);
 
     const addIngredient = function() {
-        ingredients.push({ ingredientDescription: "" });
+        ingredients.push({ description: "" });
         setIngredients([...ingredients]);
     };
 
     const addInstruction = function() {
-        instructions.push({ instructionDetails: "" });
+        instructions.push({ details: "" });
         setInstructions([...instructions]);
     };
 
     const editIngredient = function(index, value) {
-        ingredients[index].ingredientDescription = value;
+        ingredients[index].description = value;
         setIngredients([...ingredients]);
     };
 
     const editInstruction = function(index, value) {
-        instructions[index].instructionDetails = value;
+        instructions[index].details = value;
         setInstructions([...instructions]);
     };
 
@@ -48,28 +49,44 @@ const AddRecipe = function({ navigation }) {
         setInstructions([...instructions]);
     };
 
+    const createFormData = function(token) {
+        const data = new FormData();
+
+        data.append("_token", token);
+        data.append("title", recipeTitle);
+
+        if(recipeImage) {
+            data.append("image", {
+                name: recipeImage.fileName,
+                type: recipeImage.type,
+                uri: Platform.OS === "ios" ? recipeImage.uri.replace("file://", "") : recipeImage.uri
+            });
+        }
+
+        data.append("ingredients", JSON.stringify(ingredients));
+        data.append("instructions", JSON.stringify(instructions));
+
+        return data;
+    };
+
     const saveRecipe = function() {
         setSaveRecipeLoading(true);
 
-        const recipe = {
-            title: recipeTitle,
-            image: recipeImage,
-            ingredients: ingredients,
-            instructions: instructions
-        };
+        axios.get(serverURL + "/api/user/csrf-token")
+            .then(response1 => {
+                axios.post(serverURL + "/api/add-recipe", createFormData(response1.data), {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                }).then(response2 => {
 
-        fetch(serverURL + "/api/add-recipe", {
-            method: "POST",
-            body: JSON.stringify(recipe)
-        }).then(response => response.json()
-            .then(res => {
-                setSaveRecipeLoading(false);
-                if(res.error <= 0)
-                    navigation.push("Recipe", { recipe: res.data });
-            }).catch(error => { 
-                setSaveRecipeLoading(false);
-                console.log(error);
-            }));
+                    setSaveRecipeLoading(false);
+                    if(!response2.data.error)
+                        navigation.push("Recipe", { recipe: response2.data.data });
+                    else console.log("ERROR3: ", response2.data);
+                    
+                }).catch(error2 => console.log("ERROR2: ", error2));
+            }).catch(error1 => console.log("ERROR1: ", error1));
     };
 
     const checkAuth = function() {
