@@ -4,20 +4,20 @@ import IconButton from "./IconButton";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import SearchInput from "./SearchInput";
 
-const HomeHeader = function({ search, setSearch, getRecipes }) {
+const HomeHeader = function({ searchRecipe, getAllRecipes }) {
     const [isSearching, setIsSearching] = useState(false);
 
     const icon = { size: 23, color: "white" };
 
     const closeSearch = function() {
+        getAllRecipes();
         setIsSearching(false);
-        setSearch("");
     };
 
     return (
         <View style={styles.container}>
             {isSearching ?
-            <SearchInput value={search} onChangeText={setSearch} closeSearch={closeSearch}/> :
+            <SearchInput searchRecipe={searchRecipe} closeSearch={closeSearch}/> :
             <>
                 <View style={styles.brandView}>
                     <Text style={styles.brandText}>Bread on Board</Text>

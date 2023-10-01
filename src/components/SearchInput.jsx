@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import TextButton from "./TextButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
-const SearchInput = function({ value, onChangeText, closeSearch }) {
+const SearchInput = function({ searchRecipe, closeSearch }) {
+    const [search, setSearch] = useState("");
+
+    const endSearch = function() {
+        closeSearch();
+        setSearch("");
+    };
+
     return (
         <View style={styles.container}>
-            <TextInput value={value} onChangeText={onChangeText} placeholder="Search recipe" placeholderTextColor="#C4C4C4" style={styles.textInput}/>
-            <TextButton style={styles.textButton} pressedStyle={styles.textButtonPressed} onPress={closeSearch}>
+            <TextInput value={search} onChangeText={setSearch} onSubmitEditing={() => searchRecipe(search)} placeholder="Search recipe" placeholderTextColor="#C4C4C4" style={styles.textInput}/>
+            <TextButton style={styles.textButton} pressedStyle={styles.textButtonPressed} onPress={endSearch}>
                 <FontAwesomeIcon icon={faCircleXmark} color={styles.textInput.color}/>
             </TextButton>
         </View>

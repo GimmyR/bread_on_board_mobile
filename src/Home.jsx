@@ -4,9 +4,9 @@ import Navbar from "./components/Navbar";
 import HomeHeader from "./components/HomeHeader";
 import RecipeItem from "./components/RecipeItem";
 import { serverURL } from "./helpers";
+import axios from "axios";
 
 const Home = function({ navigation }) {
-    const [search, setSearch] = useState(null);
     const [recipes, setRecipes] = useState([]);
 
     const getAllRecipes = function() {
@@ -19,11 +19,24 @@ const Home = function({ navigation }) {
             }).catch(error => console.log("ERROR: ", error)));
     };
 
-    useEffect(() => getAllRecipes(), [search]);
+    const searchRecipe = function(search) {
+        axios.get(serverURL + "/api/user/csrf-token")
+            .then(res1 => {
+                axios.post(serverURL + "/api/search", {
+                    _token: res1.data,
+                    search: search
+                }).then(res2 => {
+                    if(!res2.data.error)
+                        setRecipes(res2.data.data);
+                }).catch(error2 => console.log("ERROR2: ", error2));
+            }).catch(error1 => console.log("ERROR1: ", error1));
+    };
+
+    useEffect(() => getAllRecipes(), []);
 
     return(
         <SafeAreaView style={styles.container}>
-            <HomeHeader search={search} setSearch={setSearch} getRecipes={getAllRecipes}/>
+            <HomeHeader searchRecipe={searchRecipe} getAllRecipes={getAllRecipes}/>
             <ScrollView style={styles.scrollView}>
                 <View style={styles.recipesView}>
                     {recipes.map(recipe => <RecipeItem key={recipe.id} recipe={recipe} navigation={navigation}/>)}
