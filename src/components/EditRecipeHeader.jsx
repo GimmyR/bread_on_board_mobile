@@ -1,13 +1,24 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import IconButton from "./IconButton";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 const EditRecipeHeader = function({ navigation, recipe }) {
     const icon = { size: 23, color: "white" };
 
     const goBack = function() {
-        navigation.push("Recipe", { recipe: recipe.recipeId });
+        navigation.push("Recipe", { recipe: recipe.id });
+    };
+
+    const removeRecipe = function() {
+        console.log(`REMOVING THIS RECIPE : ${recipe.id} !`);
+    };
+
+    const confirmRemove = function() {
+        Alert.alert("Confirmation", "Do you really wanna remove this ?", [
+            { text: "No" },
+            { text: "Yes", onPress: removeRecipe }
+        ]);
     };
 
     return (
@@ -18,7 +29,9 @@ const EditRecipeHeader = function({ navigation, recipe }) {
             <View style={styles.titleView}>
                 <Text style={styles.titleText}>Edit Recipe</Text>
             </View>
-            <View style={styles.blankView}></View>
+            <View style={styles.blankView}>
+                <IconButton icon={faTrashCan} size={icon.size - 2} color={icon.color} onPress={confirmRemove}/>
+            </View>
         </View>
     );
 };
