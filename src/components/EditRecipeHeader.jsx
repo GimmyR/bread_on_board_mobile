@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import IconButton from "./IconButton";
 import { faArrowLeft, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { serverURL } from "../helpers";
 
 const EditRecipeHeader = function({ navigation, recipe }) {
     const icon = { size: 23, color: "white" };
@@ -11,7 +13,12 @@ const EditRecipeHeader = function({ navigation, recipe }) {
     };
 
     const removeRecipe = function() {
-        console.log(`REMOVING THIS RECIPE : ${recipe.id} !`);
+        axios.get(serverURL + "/api/remove-recipe/" + recipe.id)
+            .then(response => {
+                if(!response.data.error)
+                    navigation.push("Home");
+                else console.log(response.data.message);
+            }).catch(error => console.log(error));
     };
 
     const confirmRemove = function() {
