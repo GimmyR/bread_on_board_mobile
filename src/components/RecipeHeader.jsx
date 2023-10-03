@@ -22,7 +22,7 @@ const RecipeHeader = function({ navigation, recipe }) {
             .then(response => response.json()
             .then(res => {
                 if(res.error <= 0) {
-                    if(recipe != null && recipe.user.id == res.data.id)
+                    if(recipe != null && recipe.user != null && res.data != null && recipe.user.id == res.data.id)
                         setEdit(true);
                 }
             }).catch(error => console.log(error)));
