@@ -5,14 +5,7 @@ import Instruction from "./Instruction";
 import { serverURL } from "../helpers";
 
 const RecipeView = function({ recipe }) {
-    const [ingredients, setIngredients] = useState([]);
-    const [instructions, setInstructions] = useState([]);
-
-    useEffect(() => {
-        setIngredients(recipe.ingredients);
-        setInstructions(recipe.instructions);
-    }, []);
-
+    
     return (
         <ScrollView>
             <View style={styles.recipeImageView}>
@@ -28,8 +21,8 @@ const RecipeView = function({ recipe }) {
             <View style={styles.ingredientsView}>
                 <Text style={styles.ingredientsTitleText}>Ingredients</Text>
                 <Text style={styles.ingredientsTwoDotsText}>:</Text>
-                {ingredients.map((ingredient, index) => 
-                <Ingredient key={ingredient.id} ingredient={ingredient} index={index} length={ingredients.length}/>)}
+                {recipe.ingredients.map((ingredient, index) => 
+                <Ingredient key={ingredient.id} ingredient={ingredient} index={index} length={recipe.ingredients.length}/>)}
             </View>
             <View style={styles.instructionsView}>
                 <View style={styles.instructionsTitleSubView}>
@@ -37,7 +30,7 @@ const RecipeView = function({ recipe }) {
                     <Text style={styles.instructionsTwoDotsText}>:</Text>
                 </View>
                 <View style={styles.instructionsSubView}>
-                    {instructions.map(instruction => 
+                    {recipe.instructions.map(instruction => 
                     <Instruction key={instruction.id} instruction={instruction}/>)}
                 </View>
             </View>
