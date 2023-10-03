@@ -1,1 +1,1 @@
-export const serverURL = "http://192.168.88.25:8000";
+export const serverURL = "https://bread-on-board.onrender.com";
