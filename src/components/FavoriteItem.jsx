@@ -10,11 +10,11 @@ const FavoriteItem = function({ recipe, navigation, refreshFavorites }) {
     const [isFavorite, setIsFavorite] = useState(false);
 
     const onPressRecipe = function() {
-        navigation.push("Recipe", { recipe: recipe.recipeId });
+        navigation.push("Recipe", { recipe: recipe.id });
     };
 
     const onPressAuthor = function() {
-        navigation.push("Profile", { profile: recipe.recipeAuthor.userId });
+        navigation.push("Profile", { profile: recipe.user.id });
     };
 
     const addFavorite = function() {
