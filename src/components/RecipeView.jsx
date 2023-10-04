@@ -9,7 +9,7 @@ const RecipeView = function({ recipe }) {
     return (
         <ScrollView>
             <View style={styles.recipeImageView}>
-                <Image src={serverURL + "/storage/" + recipe.image} style={styles.recipeImage}/>
+                <Image src={"data:image;base64," + recipe.image} style={styles.recipeImage}/>
                 <View style={styles.byAuthorView}>
                     <Text style={styles.byText}>by</Text>
                     <Text style={styles.authorText}>{recipe.user.name}</Text>
