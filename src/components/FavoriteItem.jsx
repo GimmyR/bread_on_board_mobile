@@ -46,7 +46,7 @@ const FavoriteItem = function({ recipe, navigation, refreshFavorites }) {
                     <Text style={styles.recipeTitleText} numberOfLines={1}>{recipe.title}</Text>
                 </View>
                 <View>
-                    <Image src={serverURL + "/storage/" + recipe.image} style={styles.recipeImage}/>
+                    <Image src={"data:image;base64," + recipe.image} style={styles.recipeImage}/>
                 </View>
             </Pressable>
             <View style={styles.recipeFavoriteAuthorView}>
