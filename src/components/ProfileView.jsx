@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Button, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import TextButton from "./TextButton";
 import ProfileNav from "./ProfileNav";
 import RecipeItem from "./RecipeItem";
@@ -99,6 +99,9 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
                 </View>}
                 
                 <ScrollView style={styles.recipesScrollView}>
+                    {recipes.length == 0 && favorites.length == 0 && <View>
+                        <ActivityIndicator size="large" color="#5F9F5A"/>    
+                    </View>}
                     <View style={styles.recipesView}>
                         {recipes.map(recipe => <RecipeItem key={recipe.id} recipe={recipe} navigation={navigation}/>)}
                         {favorites.map(favorite => <FavoriteItem key={favorite.id} recipe={favorite.recipe} navigation={navigation} refreshFavorites={getFavorites}/>)}
