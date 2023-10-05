@@ -13,6 +13,8 @@ const Login = function({ setUser, navigation, route }) {
     const [emailError, setEmailError] = useState(null);
     const [passwordError, setPasswordError] = useState(null);
 
+    const [loginLoading, setLoginLoading] = useState(false);
+
     /*const login = function() {
         const user = { email: email, password: password };
         fetch(serverURL + "/api/user/login", {
@@ -38,6 +40,7 @@ const Login = function({ setUser, navigation, route }) {
     };
 
     const login = function() {
+        setLoginLoading(true);
         setEmailError(null);
         setPasswordError(null);
 
@@ -49,6 +52,7 @@ const Login = function({ setUser, navigation, route }) {
                     password: password
                 }).then(res => {
                     if(!res.data.error) {
+                        setLoginLoading(false);
                         if(route.params != undefined && route.params.redirectTo != null)
                             navigation.push(route.params.redirectTo);
                         else setUser();
@@ -69,7 +73,7 @@ const Login = function({ setUser, navigation, route }) {
                 <PasswordInput value={password} onChangeText={setPassword}/>
                 {passwordError && <Text style={styles.passwordError}>{passwordError}</Text>}
             </View>
-            <TextButton onPress={login} style={styles.loginTextButton} pressedStyle={styles.pressedLoginTextButton}>
+            <TextButton onPress={login} style={styles.loginTextButton} pressedStyle={styles.pressedLoginTextButton} loading={loginLoading} loadingColor={styles.loginTitleTextButton.color}>
                 <Text style={styles.loginTitleTextButton}>Login</Text>
             </TextButton>
         </ScrollView>
