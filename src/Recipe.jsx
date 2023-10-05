@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { ActivityIndicator, SafeAreaView, StyleSheet, View } from "react-native";
 import Navbar from "./components/Navbar";
 import RecipeHeader from "./components/RecipeHeader";
 import RecipeView from "./components/RecipeView";
@@ -23,6 +23,9 @@ const Recipe = function({ navigation, route }) {
     return (
         <SafeAreaView style={styles.container}>
             <RecipeHeader navigation={navigation} recipe={recipe}/>
+            {recipe == null && <View style={styles.activityIndicatorView}>
+                <ActivityIndicator size="large" color="#5F9F5A"/>    
+            </View>}
             {recipe != null && <RecipeView recipe={recipe}/>}
             <Navbar navigation={navigation}/>
         </SafeAreaView>
@@ -33,6 +36,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#E7E7E7"
+    },
+
+    activityIndicatorView: {
+        paddingTop: 20
     }
 });
 
