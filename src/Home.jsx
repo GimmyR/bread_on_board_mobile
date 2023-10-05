@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import Navbar from "./components/Navbar";
 import HomeHeader from "./components/HomeHeader";
 import RecipeItem from "./components/RecipeItem";
@@ -9,7 +9,10 @@ import axios from "axios";
 const Home = function({ navigation }) {
     const [recipes, setRecipes] = useState([]);
 
+    const [refreshing, setRefreshing] = useState(false);
+
     const getAllRecipes = function() {
+        setRecipes([]);
         fetch(serverURL + "/api/all-recipes")
             .then(response => response.json()
             .then(res => {
@@ -20,6 +23,7 @@ const Home = function({ navigation }) {
     };
 
     const searchRecipe = function(search) {
+        setRecipes([]);
         axios.get(serverURL + "/api/user/csrf-token")
             .then(res1 => {
                 axios.post(serverURL + "/api/search", {
@@ -37,7 +41,10 @@ const Home = function({ navigation }) {
     return(
         <SafeAreaView style={styles.container}>
             <HomeHeader searchRecipe={searchRecipe} getAllRecipes={getAllRecipes}/>
-            <ScrollView style={styles.scrollView}>
+            <ScrollView style={styles.scrollView} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={getAllRecipes}/>}>
+                {recipes.length == 0 && <View>
+                    <ActivityIndicator size="large" color="#5F9F5A"/>
+                </View>}
                 <View style={styles.recipesView}>
                     {recipes.map(recipe => <RecipeItem key={recipe.id} recipe={recipe} navigation={navigation}/>)}
                 </View>
