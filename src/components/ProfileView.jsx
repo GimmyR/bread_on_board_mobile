@@ -11,13 +11,17 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
     const [recipes, setRecipes] = useState([]);
     const [favorites, setFavorites] = useState([]);
 
+    const [logoutLoading, setLogoutLoading] = useState(false);
+
     const logout = function() {
+        setLogoutLoading(true);
         fetch(serverURL + "/user/logout")
             .then(response => response.json()
             .then(res => {
-                if(!res.error)
+                if(!res.error) {
+                    setLogoutLoading(false);
                     setUser(res.data);
-                else console.log(res);
+                } else console.log(res);
             }).catch(error => console.log(error)));
     };
 
@@ -80,7 +84,7 @@ const ProfileView = function({ user, setUser, profileId, navigation }) {
                     <View style={styles.usernameView}>
                         <Text style={styles.usernameText}>{profile.name}</Text>
                         {user.id == profile.id ?
-                        <TextButton style={styles.textButton} pressedStyle={styles.pressedTextButton} onPress={logout}>
+                        <TextButton style={styles.textButton} pressedStyle={styles.pressedTextButton} onPress={logout} loading={logoutLoading} loadingColor={styles.titleTextButton.color}>
                             <Text style={styles.titleTextButton}>Logout</Text>
                         </TextButton> :
                         <TextButton style={styles.textButton} pressedStyle={styles.pressedTextButton}>
