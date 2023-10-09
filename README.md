@@ -2,7 +2,7 @@
 
 Bread on Board (littéralement "pain sur la planche") est une application mobile développée avec *React Native* qui permet de créer des recettes de cuisine et de les consulter en mode To-Do List.
 
-Get the released app for Android by clicking [here](https://github.com/GimmyR/bread_on_board_mobile/blob/master/bread-on-board-release-1.0.0.apk "download").
+Get the released app for Android by clicking <a href="https://github.com/GimmyR/bread_on_board_mobile/blob/master/bread-on-board-release-1.0.0.apk" download>here</a>.
 
 ## Prérequis (Pour Android)
 
