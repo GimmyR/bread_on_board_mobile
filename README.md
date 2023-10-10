@@ -2,7 +2,7 @@
 
 Bread on Board (littéralement "pain sur la planche") est une application mobile développée avec *React Native* qui permet de créer des recettes de cuisine et de les consulter en mode To-Do List.
 
-Get the released app for Android [here](./bread-on-board-release-1.0.0.apk).
+Téléchargez l'application Android [ici](./bread-on-board-release-1.0.0.apk).
 
 ## Prérequis (Pour Android)
 
@@ -20,6 +20,10 @@ Exécutez les commandes `npm install`.
 Allez dans les paramètres de votre smartphone pour chercher le numéro de build de votre système. Tapez plusieurs deçu jusqu'à ce que le téléphone vous propose d'activer ce mode. Pensez également à activer le mode débogage qui n'est pas toujours activé de base.
 
 Connectez votre smartphone à votre ordinateur à l'aide d'un câble USB et tapez la commande `adb devices` pour vérifier que tout fonctionne.
+
+## Adresse de l'API
+
+Modifiez l'adresse de l'API dans *helpers.js* à l'intérieur du dossier *src*.
 
 ## Lancement du serveur de débogage
 
