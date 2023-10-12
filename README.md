@@ -1,34 +1,34 @@
 # Bread on Board
 
-Bread on Board (littéralement "pain sur la planche") est une application mobile développée avec *React Native* qui permet de créer des recettes de cuisine et de les consulter en mode To-Do List.
+Bread on Board is a mobile application developed with React Native that lets you create recipes and consult them in To-Do List mode.
 
-Téléchargez l'application Android [ici](./bread-on-board-release-1.0.0.apk).
+Download the Android app [here](./bread-on-board-release-1.0.0.apk).
 
-## Prérequis (Pour Android)
+## Prerequisites (For Android)
 
-* **Node** version **18.17.1** (ou plus)
-* **NPM** version **9.7.1** (ou plus)
-* **OpenJDK** version **11.0.20** (ou plus)
+* **Node** version **18.17.1**
+* **NPM** version **9.7.1**
+* **OpenJDK** version **11.0.20**
 * **Android SDK** version **13 ("Tiramisu")**
 
-## Installation des dépendances
+## Dependency installation
 
-Exécutez les commandes `npm install`.
+Run the command `npm install`.
 
-## Activation du mode développeur du smartphone
+## Smartphone developer mode activation
 
-Allez dans les paramètres de votre smartphone pour chercher le numéro de build de votre système. Tapez plusieurs deçu jusqu'à ce que le téléphone vous propose d'activer ce mode. Pensez également à activer le mode débogage qui n'est pas toujours activé de base.
+Go to your smartphone's settings to find your system's build number. Tap on it several times until the phone prompts you to activate this mode. Don't forget to activate debug mode, which is not always enabled.
 
-Connectez votre smartphone à votre ordinateur à l'aide d'un câble USB et tapez la commande `adb devices` pour vérifier que tout fonctionne.
+Connect your smartphone to your computer using a USB cable and run the command `adb devices` to make sure everything's working.
 
-## Adresse de l'API
+## API Address
 
-Modifiez l'adresse de l'API dans *helpers.js* à l'intérieur du dossier *src*.
+Edit the API Address in *src/helpers.js*.
 
-## Lancement du serveur de débogage
+## Server launch on debug mode
 
-Sur le terminal 1, exécutez la commande `npm start`.
+On terminal 1, run the command `npm start`.
 
-## Installation de l'application mobile en mode débogage
+## Installation of the mobile application on debug mode
 
-Sur le terminal 2, exécutez la commande `npm run android` (pour Android).
+On terminal 2, run the command `npm run android` (for Android).
